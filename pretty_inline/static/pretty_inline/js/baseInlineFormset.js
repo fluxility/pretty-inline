@@ -115,6 +115,7 @@
 
             button
                 .text(this.settings.deleteText)
+                .addClass("delete-button")
                 .click(function () {
                     that.removeForm(formElement);
                 });

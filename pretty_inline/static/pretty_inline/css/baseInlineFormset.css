@@ -15,3 +15,17 @@
 .inline-group .add-button:focus {
     color: #036;
 }
+
+.inline-group .delete-button {
+    background: url('../../admin/img/icon_deletelink.gif') 0 50% no-repeat;
+    margin-left: 10px;
+    padding-left: 15px;
+    border: 0;
+    color: #CC3434;
+    cursor: pointer;
+}
+
+.inline-group .delete-button:hover,
+.inline-group .delete-button:focus {
+    color: #993333;
+}
