@@ -27,14 +27,6 @@ class StackedInline(BaseInlineModelAdmin, BaseStackedInline):
     template = 'pretty_inline/edit_inline/stacked.html'
 
 
-class PrettyInline(InlineModelAdmin):
+class PrettyInline(BaseInlineModelAdmin):
     template = 'pretty_inline/edit_inline/pretty.html'
     extra = 0
-
-    @property
-    def media(self):
-        files = ['pretty_inline.js']
-
-        js = super(PrettyInline, self).media
-        js.add_js([static('pretty_inline/js/%s' % f) for f in files])
-        return js
