@@ -45,11 +45,10 @@
                 Undo remove {{ verbose_name }}
             {% endblocktrans %}
     </span>
+    <span class="cant-undelete-text hidden">{% spaceless %}
+        {% blocktrans with inline_admin_formset.opts.verbose_name_plural|capfirst as verbose_name_plural %}
+            You have reached the maximum number of {{ verbose_name_plural }}. Please remove a one first.
+        {% endblocktrans %}
+    {% endspaceless %}</span>
 </div>
-
-<style>
-    .hidden {
-        display: none;
-    }
-</style>
 
