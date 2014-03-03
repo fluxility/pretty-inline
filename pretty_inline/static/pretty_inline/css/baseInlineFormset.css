@@ -49,3 +49,8 @@
 .inline-group .add-button.disabled {
     color: #ddd;
 }
+
+/* Stacked */
+.inline-group.stacked-inline .delete-button {
+    padding: 0 0 0 15px;
+}

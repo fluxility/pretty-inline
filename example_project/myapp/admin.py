@@ -3,7 +3,7 @@ from myapp.models import Book, Author, AuthorTabular, AuthorStacked
 from pretty_inline.admin import TabularInline, StackedInline
 
 
-class BookRegularTabularInline(admin.TabularInline):
+class BookRegularTabularInline(admin.StackedInline):
     model = Book
     max_num = 5
 
