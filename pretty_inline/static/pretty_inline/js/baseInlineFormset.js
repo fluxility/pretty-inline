@@ -84,6 +84,7 @@
             var that = this;
             this.addButton = $('<button type="button"></button>')
                 .text(this.settings.addText)
+                .addClass("add-button")
                 .click(function (event) {
                     that.addForm(event);
                 });
