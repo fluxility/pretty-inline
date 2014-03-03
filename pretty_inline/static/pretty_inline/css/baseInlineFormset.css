@@ -45,3 +45,7 @@
 .inline-group .form-row.removed button.delete-button {
     text-decoration: none;
 }
+
+.inline-group .add-button.disabled {
+    color: #ddd;
+}
