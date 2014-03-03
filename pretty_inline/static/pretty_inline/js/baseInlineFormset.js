@@ -13,6 +13,7 @@
             addText: null,
             deleteText: null,
             undeleteText: null,
+            cantUndeleteText: null,
 
             addButton: null
         };
@@ -63,6 +64,7 @@
             this.settings.addText = this.$element.find(".add-text").text();
             this.settings.deleteText = this.$element.find(".delete-text").text();
             this.settings.undeleteText = this.$element.find(".undelete-text").text();
+            this.settings.canUndeleteText = this.$element.find(".cant-undelete-text").text();
         },
 
         initListeners: function () {
@@ -170,7 +172,7 @@
 
         unRemoveForm: function (formElement) {
             if (!this.canAddAnotherForm()) {
-                window.alert("U mag maximaal " + this.settings.maximumForms + " formulieren toevoegen. Verwijder eerst een ander formulier.");
+                window.alert(this.settings.canUndeleteText);
                 return;
             }
             var that = this;
