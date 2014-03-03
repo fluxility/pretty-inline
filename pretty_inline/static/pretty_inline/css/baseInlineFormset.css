@@ -29,3 +29,19 @@
 .inline-group .delete-button:focus {
     color: #993333;
 }
+
+.inline-group .form-row.removed {
+    background: #FFF4F9;
+}
+
+.inline-group .form-row:nth-child(odd).removed {
+    background: #FFECF4;
+}
+
+.inline-group .form-row.removed * {
+    text-decoration: line-through;
+}
+
+.inline-group .form-row.removed button.delete-button {
+    text-decoration: none;
+}
