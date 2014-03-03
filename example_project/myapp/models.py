@@ -8,3 +8,13 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(Author)
+
+
+class AuthorTabular(Author):
+    class Meta:
+        proxy = True
+
+
+class AuthorStacked(Author):
+    class Meta:
+        proxy = True
