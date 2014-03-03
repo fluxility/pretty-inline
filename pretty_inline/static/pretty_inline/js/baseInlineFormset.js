@@ -183,7 +183,7 @@
 
             formElement
                 .find(".delete button")
-                .html("Delete")
+                .text(this.settings.deleteText)
                 .unbind()
                 .click(function () {
                     that.removeForm(formElement);
