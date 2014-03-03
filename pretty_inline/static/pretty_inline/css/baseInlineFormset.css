@@ -1,3 +1,17 @@
 .inline-group .form-row:nth-child(odd) {
     background: #EDF3FE;
 }
+
+.inline-group .add-button {
+    background: url('../../admin/img/icon_addlink.gif') 0 50% no-repeat;
+    margin-left: 10px;
+    padding-left: 15px;
+    border: 0;
+    color: #5b80b2;
+    cursor: pointer;
+}
+
+.inline-group .add-button:hover,
+.inline-group .add-button:focus {
+    color: #036;
+}
