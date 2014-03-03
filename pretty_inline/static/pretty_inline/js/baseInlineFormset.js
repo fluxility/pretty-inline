@@ -158,6 +158,7 @@
         unRemoveForm: function (formElement) {
             if (!this.canAddAnotherForm()) {
                 window.alert("U mag maximaal " + this.settings.maximumForms + " formulieren toevoegen. Verwijder eerst een ander formulier.");
+                return;
             }
             var that = this;
 
