@@ -6,40 +6,25 @@ from django.contrib.admin import StackedInline as BaseStackedInline
 from django.forms import forms
 
 
-class TabularInline(BaseTabularInline):
+class BaseInlineModelAdmin(InlineModelAdmin):
+    @property
+    def media(self):
+        media = super(BaseInlineModelAdmin, self).media
+
+        media.add_css({
+            "all": [static('pretty_inline/css/baseInlineFormset.css')]
+        })
+        media.add_js([static('pretty_inline/js/baseInlineFormset.js')])
+
+        return media
+
+
+class TabularInline(BaseInlineModelAdmin, BaseTabularInline):
     template = 'pretty_inline/edit_inline/tabular.html'
 
-    @property
-    def media(self):
-        extra = '' if settings.DEBUG else '.min'
-        js = ['jquery%s.js' % extra, 'jquery.init.js']
-        if self.prepopulated_fields:
-            js.extend(['urlify.js', 'prepopulate%s.js' % extra])
-        if self.filter_vertical or self.filter_horizontal:
-            js.extend(['SelectBox.js', 'SelectFilter2.js'])
 
-        js = forms.Media(js=[static('admin/js/%s' % url) for url in js])
-        js.add_js([static('pretty_inline/js/baseInlineFormset.js')])
-
-        return js
-
-
-class StackedInline(BaseStackedInline):
+class StackedInline(BaseInlineModelAdmin, BaseStackedInline):
     template = 'pretty_inline/edit_inline/stacked.html'
-
-    @property
-    def media(self):
-        extra = '' if settings.DEBUG else '.min'
-        js = ['jquery%s.js' % extra, 'jquery.init.js']
-        if self.prepopulated_fields:
-            js.extend(['urlify.js', 'prepopulate%s.js' % extra])
-        if self.filter_vertical or self.filter_horizontal:
-            js.extend(['SelectBox.js', 'SelectFilter2.js'])
-
-        js = forms.Media(js=[static('admin/js/%s' % url) for url in js])
-        js.add_js([static('pretty_inline/js/baseInlineFormset.js')])
-
-        return js
 
 
 class PrettyInline(InlineModelAdmin):
