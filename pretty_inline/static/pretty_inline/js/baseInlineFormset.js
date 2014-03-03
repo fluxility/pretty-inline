@@ -193,7 +193,7 @@
 
         appendForm: function () {
             var newForm = this.cloneEmptyForm();
-            this.settings.formsContainer.append(newForm);
+            this.settings.emptyForm.before(newForm);
             return newForm;
         },
 
