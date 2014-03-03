@@ -218,7 +218,7 @@
         updateAddVisibility: function () {
             this.addButton
                 .attr("disabled", !this.canAddAnotherForm())
-                .toggleClass("disabled", this.canAddAnotherForm());
+                .toggleClass("disabled", !this.canAddAnotherForm());
         },
 
         prepareForSubmit: function () {
