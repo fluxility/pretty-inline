@@ -1,0 +1,3 @@
+.inline-group .form-row:nth-child(odd) {
+    background: #EDF3FE;
+}
