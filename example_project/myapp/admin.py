@@ -1,6 +1,6 @@
 from django.contrib import admin
-from myapp.models import Book, Author, AuthorTabular, AuthorStacked
-from pretty_inline.admin import TabularInline, StackedInline
+from myapp.models import Book, Author, AuthorTabular, AuthorStacked, AuthorPretty
+from pretty_inline.admin import TabularInline, StackedInline, PrettyInline
 
 
 class BookRegularTabularInline(admin.StackedInline):
@@ -18,6 +18,11 @@ class BookStackedInline(StackedInline):
     max_num = 5
 
 
+class BookPrettyInline(PrettyInline):
+    model = Book
+    max_num = 5
+
+
 class AuthorTabularAdmin(admin.ModelAdmin):
     inlines = [BookTabularInline, ]
 
@@ -29,7 +34,12 @@ class AuthorStackedAdmin(admin.ModelAdmin):
 class AuthorRegularTabularAdmin(admin.ModelAdmin):
     inlines = [BookRegularTabularInline]
 
+
+class AuthorPrettyAdmin(admin.ModelAdmin):
+    inlines = [BookPrettyInline, ]
+
 admin.site.register(AuthorTabular, AuthorTabularAdmin)
 admin.site.register(AuthorStacked, AuthorStackedAdmin)
+admin.site.register(AuthorPretty, AuthorPrettyAdmin)
 admin.site.register(Author, AuthorRegularTabularAdmin)
 admin.site.register(Book)

@@ -16,6 +16,20 @@
     color: #036;
 }
 
+.inline-group .change-button {
+    background: url('../../admin/img/icon_changelink.gif') 0 50% no-repeat;
+    margin-left: 10px;
+    padding-left: 15px;
+    border: 0;
+    color: #5b80b2;
+    cursor: pointer;
+}
+
+.inline-group .change-button:hover,
+.inline-group .change-button:focus {
+    color: #036;
+}
+
 .inline-group .delete-button {
     background: url('../../admin/img/icon_deletelink.gif') 0 50% no-repeat;
     margin-left: 10px;

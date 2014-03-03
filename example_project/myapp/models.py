@@ -18,3 +18,8 @@ class AuthorTabular(Author):
 class AuthorStacked(Author):
     class Meta:
         proxy = True
+
+
+class AuthorPretty(Author):
+    class Meta:
+        proxy = True
