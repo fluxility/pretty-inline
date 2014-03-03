@@ -30,19 +30,21 @@
     color: #993333;
 }
 
-.inline-group .form-row.removed {
+.inline-group .form-row.removed,
+.inline-group .removed .form-row {
     background: #FFF4F9;
 }
 
+.inline-group .removed .form-row:nth-child(odd),
 .inline-group .form-row:nth-child(odd).removed {
     background: #FFECF4;
 }
 
-.inline-group .form-row.removed * {
+.inline-group .removed * {
     text-decoration: line-through;
 }
 
-.inline-group .form-row.removed button.delete-button {
+.inline-group .removed button.delete-button {
     text-decoration: none;
 }
 
