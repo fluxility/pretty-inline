@@ -12,6 +12,7 @@
             adminStaticPrefix: null,
             addText: null,
             deleteText: null,
+            undeleteText: null,
 
             addButton: null
         };
@@ -29,6 +30,7 @@
         init: function () {
             this.initPrefix();
             this.initInlineConstraints();
+            this.initTextLabels();
             this.initEmptyForm();
             this.initFormsContainer();
             this.initListeners();
@@ -57,6 +59,12 @@
             this.settings.formsContainer = this.settings.emptyForm.parent();
         },
 
+        initTextLabels: function () {
+            this.settings.addText = this.$element.find(".add-text").text();
+            this.settings.deleteText = this.$element.find(".delete-text").text();
+            this.settings.undeleteText = this.$element.find(".undelete-text").text();
+        },
+
         initListeners: function () {
             var that = this;
             this.$element.on("formAdded", function () {
@@ -74,7 +82,8 @@
 
         renderAddButton: function () {
             var that = this;
-            this.addButton = $('<button type="button">Toevoegen</button>')
+            this.addButton = $('<button type="button"></button>')
+                .text(this.settings.addText)
                 .click(function (event) {
                     that.addForm(event);
                 });
@@ -100,12 +109,14 @@
         },
         replaceDeleteSectionToForm: function (formElement) {
             var that = this,
-                button = $('<button type="button">Delete</button>'),
+                button = $('<button type="button"></button>'),
                 checkbox = $('<input type="checkbox">');
 
-            button.click(function () {
-                that.removeForm(formElement);
-            });
+            button
+                .text(this.settings.deleteText)
+                .click(function () {
+                    that.removeForm(formElement);
+                });
 
             checkbox
                 .attr('name', this.settings.prefix + '-__prefix__-DELETE')
@@ -145,7 +156,7 @@
 
             formElement
                 .find(".delete button")
-                .html("Undelete")
+                .text(this.settings.undeleteText)
                 .unbind()
                 .click(function () {
                     that.unRemoveForm(formElement);
