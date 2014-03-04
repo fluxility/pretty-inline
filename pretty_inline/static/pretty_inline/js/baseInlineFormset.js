@@ -249,6 +249,10 @@ var InlineFormset = {};
         },
 
         cancelChangeForm: function (formElement) {
+            if( !this.hasFormChange(formElement) ) {
+                this.removeForm(formElement);
+            }
+
             this.closeChangeForm();
         },
 
