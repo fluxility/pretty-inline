@@ -316,6 +316,7 @@ var InlineFormset = {};
             var form = this.settings.emptyForm.clone();
             form.removeClass("empty-form");
             this.replaceDeleteSectionToForm(form);
+            this.replaceChangeSectionToForm(form);
 
             return form;
         },
