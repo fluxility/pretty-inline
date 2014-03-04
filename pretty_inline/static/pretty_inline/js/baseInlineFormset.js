@@ -1,3 +1,5 @@
+var InlineFormset = {};
+
 (function ($, window) {
     "use strict";
     var pluginName = "baseInlineFormset",
@@ -7,6 +9,7 @@
             totalForms: null,
             emptyForm: null,
             formsContainer: null,
+            editorContainer: null,
 
             prefix: null,
             adminStaticPrefix: null,
@@ -18,22 +21,27 @@
             addButton: null
         };
 
-    function Plugin(element, options) {
+    function Plugin(element, options, extend) {
         this.element = element;
         this.$element = $(this.element);
         this.settings = $.extend({}, defaults, options);
 //        this._defaults = defaults;
 //        this._name = pluginName;
-        this.init();
+        if( !extend ) {
+            this.init();
+        }
     }
 
     Plugin.prototype = {
+        isEditorOpen: false,
+
         init: function () {
             this.initPrefix();
             this.initInlineConstraints();
             this.initTextLabels();
             this.initEmptyForm();
             this.initFormsContainer();
+            this.initEditorContainer();
             this.initListeners();
 
             this.renderControls();
@@ -60,8 +68,13 @@
             this.settings.formsContainer = this.settings.emptyForm.parent();
         },
 
+        initEditorContainer: function () {
+            this.settings.editorContainer = this.$element.find(".editor");
+        },
+
         initTextLabels: function () {
             this.settings.addText = this.$element.find(".add-text").text();
+            this.settings.changeText = this.$element.find(".change-text").text();
             this.settings.deleteText = this.$element.find(".delete-text").text();
             this.settings.undeleteText = this.$element.find(".undelete-text").text();
             this.settings.canUndeleteText = this.$element.find(".cant-undelete-text").text();
@@ -80,6 +93,7 @@
         renderControls: function () {
             this.renderAddButton();
             this.renderDeleteButtons();
+            this.renderChangeButtons();
         },
 
         renderAddButton: function () {
@@ -94,6 +108,16 @@
             this.$element.append(this.addButton);
         },
 
+        renderChangeButtons: function () {
+            var that = this;
+            this.settings
+                .formsContainer
+                .children(":not(.empty-form)")
+                .each(function () {
+                    that.replaceChangeSectionToForm($(this));
+                });
+        },
+
         renderDeleteButtons: function () {
             var that = this;
             this.settings
@@ -106,10 +130,28 @@
 
         bindToForm: function () {
             var that = this;
-            this.$element.parents("form").on("submit", function () {
-                that.prepareForSubmit();
+            this.$element.parents("form").on("submit", function (event) {
+                that.prepareForSubmit(event);
             });
         },
+
+        replaceChangeSectionToForm: function (formElement) {
+            var that = this,
+                button = $('<button type="button"></button>');
+
+            button
+                .text(this.settings.changeText)
+                .addClass("change-button")
+                .click(function () {
+                    that.changeForm(formElement);
+                });
+
+            formElement
+                .find(".change")
+                .html("")
+                .append(button);
+        },
+
         replaceDeleteSectionToForm: function (formElement) {
             var that = this,
                 button = $('<button type="button"></button>'),
@@ -147,6 +189,53 @@
             var newForm = this.appendForm();
             this.increaseFormCount();
             this.$element.trigger("formAdded", newForm);
+        },
+
+        changeForm: function (formElement) {
+            var changeForm = formElement.find(".change-form").clone(),
+                saveButton = $('<button type="button">Save</button>'),
+                cancelButton = $('<button type="button">Cancel</button>');
+
+            var that = this;
+
+            saveButton.on("click", function() {
+                that.saveChangeForm(formElement);
+            });
+
+            cancelButton.on("click", function() {
+                that.cancelChangeForm(formElement);
+            });
+
+            changeForm.removeClass("hidden")
+
+            this.settings.editorContainer
+                .html("")
+                .append(changeForm)
+                .append(saveButton)
+                .append(cancelButton)
+                .data('form-element', formElement);
+
+            this.isEditorOpen = true;
+        },
+
+        saveChangeForm: function (formElement) {
+            var form = this.settings.editorContainer.find(".change-form");
+            form.addClass("hidden");
+            formElement
+                .find('.change-form')
+                .replaceWith(form)
+                .addClass("hidden");
+
+            this.closeChangeForm()
+        },
+
+        cancelChangeForm: function (formElement) {
+            this.closeChangeForm();
+        },
+
+        closeChangeForm: function () {
+            this.settings.editorContainer.html("");
+            this.isEditorOpen = false;
         },
 
         removeForm: function (formElement) {
@@ -223,7 +312,25 @@
                 .toggleClass("disabled", !this.canAddAnotherForm());
         },
 
-        prepareForSubmit: function () {
+        handleOpenEditor: function (event){
+            event.preventDefault();
+
+            var fieldWithFocus = $("input:focus, select:focus, textarea:focus");
+
+            if( fieldWithFocus.length && $.contains(this.settings.editorContainer[0], fieldWithFocus[0]) ) {
+                this.saveChangeForm(this.settings.editorContainer.data('form-element'));
+            } else {
+                alert("Please save (or cancel) the active editor first");
+            }
+
+
+        },
+
+        prepareForSubmit: function (event) {
+            if( this.isEditorOpen ) {
+                this.handleOpenEditor(event);
+            }
+
             this.removeNewButDeletedForms();
             this.renumberFormIds();
         },
@@ -265,6 +372,9 @@
         }
     };
 
+    // Bind to global (namespaced) so we can extend it elsewhere
+    InlineFormset['baseInlineFormset'] = Plugin;
+
     // A really lightweight plugin wrapper around the constructor,
     // preventing against multiple instantiations
     $.fn[pluginName] = function (options) {
@@ -279,6 +389,6 @@
     };
 
     $(function () {
-        $(".inline-group").baseInlineFormset();
+        $(".inline-group:not(.custom)").baseInlineFormset();
     });
 })(django.jQuery, window);
