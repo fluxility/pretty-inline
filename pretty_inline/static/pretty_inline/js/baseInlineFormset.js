@@ -194,39 +194,50 @@ var InlineFormset = {};
         changeForm: function (formElement) {
             var changeForm = formElement.find(".change-form").clone(),
                 saveButton = $('<button type="button">Save</button>'),
-                cancelButton = $('<button type="button">Cancel</button>');
+                cancelButton = $('<button type="button">Cancel</button>'),
+                buttonRow = $('<div></div>');
 
             var that = this;
 
-            saveButton.on("click", function() {
-                that.saveChangeForm(formElement);
-            });
+            saveButton
+                .addClass("save-button")
+                .on("click", function() {
+                    that.saveChangeForm(formElement);
+                });
 
-            cancelButton.on("click", function() {
+            cancelButton
+                .addClass("cancel-button")
+                .on("click", function() {
                 that.cancelChangeForm(formElement);
             });
+
+            buttonRow
+                .addClass("button-row")
+                .append(saveButton)
+                .append(cancelButton);
 
             changeForm.removeClass("hidden")
 
             this.settings.editorContainer
                 .html("")
                 .append(changeForm)
-                .append(saveButton)
-                .append(cancelButton)
+                .append(buttonRow)
                 .data('form-element', formElement);
 
             this.isEditorOpen = true;
+            this.$element.addClass("editor-active");
         },
 
         saveChangeForm: function (formElement) {
             var form = this.settings.editorContainer.find(".change-form");
+
             form.addClass("hidden");
             formElement
                 .find('.change-form')
                 .replaceWith(form)
                 .addClass("hidden");
 
-            this.closeChangeForm()
+            this.closeChangeForm();
         },
 
         cancelChangeForm: function (formElement) {
@@ -236,6 +247,7 @@ var InlineFormset = {};
         closeChangeForm: function () {
             this.settings.editorContainer.html("");
             this.isEditorOpen = false;
+            this.$element.removeClass("editor-active");
         },
 
         removeForm: function (formElement) {

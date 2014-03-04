@@ -14,6 +14,7 @@ class BaseInlineModelAdmin(InlineModelAdmin):
         media.add_css({
             "all": [static('pretty_inline/css/baseInlineFormset.css')]
         })
+        media.add_js([static('libs/jquery.fix.clone.js')])
         media.add_js([static('pretty_inline/js/baseInlineFormset.js')])
 
         return media
