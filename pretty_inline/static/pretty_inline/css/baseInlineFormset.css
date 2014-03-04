@@ -44,6 +44,31 @@
     color: #993333;
 }
 
+
+.inline-group .save-button {
+    border: 2px solid #5b80b2;
+    background: #7CA0C7 url(../../admin/img/default-bg.gif) bottom repeat-x;
+    font-weight: bold;
+    color: white;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.inline-group .cancel-button {
+    background: white url(../../admin/img/nav-bg.gif) bottom repeat-x;
+    padding: 3px 5px;
+    color: black;
+    border: 1px solid #bbb;
+    border-color: #ddd #aaa #aaa #ddd;
+}
+
+.inline-group .button-row {
+    padding-left: 115px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+
 .inline-group .form-row.removed,
 .inline-group .removed .form-row {
     background: #FFF4F9;
@@ -72,5 +97,38 @@
 }
 
 .inline-group .hidden {
+    display: none;
+}
+
+/* Pretty */
+.inline-group .overview {
+    position: relative;
+    opacity: 1;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.inline-group .editor {
+    opacity: 0;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.inline-group.editor-active .overview {
+    display: none;
+    position: absolute;
+}
+
+.inline-group.editor-active .editor {
+    opacity: 1;
+}
+
+.inline-group.editor-active .add-button {
     display: none;
 }

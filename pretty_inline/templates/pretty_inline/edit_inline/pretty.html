@@ -23,15 +23,18 @@
                             {% endif %}
                             <div class="change-form hidden">
                             {% for fieldset in inline_admin_form %}
-                                {% for line in fieldset %}
-                                    {% for field in line %}
-                                        {% if not field.field.is_hidden %}
-                                            <div{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>
-                                                {{ field.field }}
-                                            </div>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
+                                {% include "admin/includes/fieldset.html" %}
+
+{#                                {% for line in fieldset %}#}
+{#                                    {% for field in line %}#}
+{#                                        {% if not field.field.is_hidden %}#}
+{#                                            <div{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>#}
+{#                                                {{ field.label }}#}
+{#                                                {{ field.field }}#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    {% endfor %}#}
+{#                                {% endfor %}#}
                             {% endfor %}
                             </div>
                         </td>

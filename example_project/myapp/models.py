@@ -6,8 +6,11 @@ class Author(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=255)
     author = models.ForeignKey(Author)
+    title = models.CharField(max_length=255)
+    eancode = models.CharField(max_length=255)
+    description = models.TextField()
+    language = models.CharField(max_length=7, choices=[("dutch", "Dutch"), ("english", "English")])
 
 
 class AuthorTabular(Author):
