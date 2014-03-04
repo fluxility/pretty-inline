@@ -16,7 +16,11 @@
                 </thead>
                 <tbody>
                 {% for inline_admin_form in inline_admin_formset %}
-                    <tr class="form-row{% if forloop.last %} empty-form{% endif %}">
+                    <tr class="{% spaceless %}
+                    form-row
+                    {% if forloop.last %} empty-form{% endif %}
+                    {% if inline_admin_form.form.errors %} errors{% endif %}
+                    {% endspaceless %}">
                         <td class="item">
                             <span class="item-label">
                             {% if inline_admin_form.original %}
@@ -24,6 +28,7 @@
                             {% endif %}
                             </span>
                             <div class="change-form hidden">
+                            {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
                             {% for fieldset in inline_admin_form %}
                                 {% include "admin/includes/fieldset.html" %}
 

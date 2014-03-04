@@ -1,3 +1,7 @@
+.inline-group td {
+    line-height: 34px;
+}
+
 .inline-group .form-row:nth-child(odd) {
     background: #EDF3FE;
 }
@@ -91,6 +95,11 @@
     color: #ddd;
 }
 
+.inline-group .form-row.errors {
+    background: #FFC;
+    border: 1px solid #F00;
+}
+
 /* Stacked */
 .inline-group.stacked-inline .delete-button {
     padding: 0 0 0 15px;
@@ -131,4 +140,9 @@
 
 .inline-group.editor-active .add-button {
     display: none;
+}
+
+.inline-group .form-row.errors .item {
+    background: #FFC url('../../admin/img/icon_error.gif') 5px 50% no-repeat;
+    padding-left: 25px;
 }
