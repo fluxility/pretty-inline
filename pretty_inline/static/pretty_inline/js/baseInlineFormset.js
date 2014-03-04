@@ -273,22 +273,39 @@ var InlineFormset = {};
             itemLabel.text(labelText);
         },
 
+        hasFormChange: function(formElement) {
+            var currentValues = formElement.find('input,select,textarea'),
+                startValues = this.settings.emptyForm.find('input,select,textarea'),
+                equal = true;
+
+            $.each(startValues, function(i, field) {
+                equal = equal && $(currentValues[i]).val() === $(field).val();
+            });
+
+            return !equal;
+        },
+
         removeForm: function (formElement) {
             var that = this;
 
-            formElement.addClass("removed");
+            if( this.hasFormChange(formElement) ) {
+                formElement.addClass("removed");
 
-            formElement
-                .find(".delete input[type=checkbox]")
-                .attr("checked", true);
+                formElement
+                    .find(".delete input[type=checkbox]")
+                    .attr("checked", true);
 
-            formElement
-                .find(".delete button")
-                .text(this.settings.undeleteText)
-                .unbind()
-                .click(function () {
-                    that.unRemoveForm(formElement);
-                });
+                formElement
+                    .find(".delete button")
+                    .text(this.settings.undeleteText)
+                    .unbind()
+                    .click(function () {
+                        that.unRemoveForm(formElement);
+                    });
+            } else {
+                formElement.remove();
+            }
+
 
             this.decreaseFormCount();
             this.$element.trigger("formRemoved", formElement);
