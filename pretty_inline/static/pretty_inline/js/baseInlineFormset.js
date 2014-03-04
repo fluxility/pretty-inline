@@ -148,7 +148,7 @@ var InlineFormset = {};
                 .text(this.settings.changeText)
                 .addClass("change-button")
                 .click(function () {
-                    that.changeForm(formElement);
+                    that.showChangeForm(formElement);
                 });
 
             formElement
@@ -195,10 +195,10 @@ var InlineFormset = {};
             this.increaseFormCount();
             this.$element.trigger("formAdded", newForm);
 
-            this.changeForm(newForm);
+            this.showChangeForm(newForm);
         },
 
-        changeForm: function (formElement) {
+        showChangeForm: function (formElement) {
             var changeForm = formElement.find(".change-form").clone(),
                 saveButton = $('<button type="button">Save</button>'),
                 cancelButton = $('<button type="button">Cancel</button>'),
