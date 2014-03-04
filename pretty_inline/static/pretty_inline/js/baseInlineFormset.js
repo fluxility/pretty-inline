@@ -42,6 +42,7 @@ var InlineFormset = {};
             this.initEmptyForm();
             this.initFormsContainer();
             this.initEditorContainer();
+            this.initChangeForm();
             this.initListeners();
 
             this.renderControls();
@@ -78,6 +79,10 @@ var InlineFormset = {};
             this.settings.deleteText = this.$element.find(".delete-text").text();
             this.settings.undeleteText = this.$element.find(".undelete-text").text();
             this.settings.canUndeleteText = this.$element.find(".cant-undelete-text").text();
+        },
+
+        initChangeForm: function () {
+            this.settings.itemLabelField = this.$element.find(".item-label-field").text();
         },
 
         initListeners: function () {
@@ -239,6 +244,7 @@ var InlineFormset = {};
                 .replaceWith(form)
                 .addClass("hidden");
 
+            this.updateItemLabel(form);
             this.closeChangeForm();
         },
 
@@ -250,6 +256,21 @@ var InlineFormset = {};
             this.settings.editorContainer.html("");
             this.isEditorOpen = false;
             this.$element.removeClass("editor-active");
+        },
+
+        updateItemLabel: function (form) {
+            var itemLabel, labelText;
+
+            itemLabel = form
+                .parents(".item")
+                .find(".item-label");
+
+            labelText = form
+                .find(".field-" + this.settings.itemLabelField)
+                .find("input,select,textarea")
+                .val();
+
+            itemLabel.text(labelText);
         },
 
         removeForm: function (formElement) {
