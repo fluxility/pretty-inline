@@ -189,6 +189,8 @@ var InlineFormset = {};
             var newForm = this.appendForm();
             this.increaseFormCount();
             this.$element.trigger("formAdded", newForm);
+
+            this.changeForm(newForm);
         },
 
         changeForm: function (formElement) {
