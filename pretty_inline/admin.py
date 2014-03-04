@@ -32,12 +32,3 @@ class PrettyInline(BaseInlineModelAdmin):
     template = 'pretty_inline/edit_inline/pretty.html'
     extra = 0
 
-    @property
-    def media(self):
-        media = super(PrettyInline, self).media
-
-        media.add_js([static('pretty_inline/js/prettyInlineFormset.js')])
-
-        return media
-
-
