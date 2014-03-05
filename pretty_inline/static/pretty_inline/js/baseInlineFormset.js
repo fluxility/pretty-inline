@@ -89,6 +89,7 @@ var InlineFormset = {};
             var that = this;
             this.$element.on("formAdded", function () {
                 that.updateAddVisibility();
+                that.reinitDateTimeShortCuts();
             });
             this.$element.on("formRemoved", function () {
                 that.updateAddVisibility();
@@ -233,6 +234,7 @@ var InlineFormset = {};
 
             this.isEditorOpen = true;
             this.$element.addClass("editor-active");
+            this.reinitDateTimeShortCuts();
         },
 
         saveChangeForm: function (formElement) {
@@ -425,6 +427,14 @@ var InlineFormset = {};
 
             if ($el.attr('name')) {
                 $el.attr('name', $el.attr('name').replace(id_regex, replacement));
+            }
+        },
+
+        reinitDateTimeShortCuts: function() {
+            // Reinitialize the calendar and clock widgets by force, yuck.
+            if (typeof DateTimeShortcuts != "undefined") {
+                $(".datetimeshortcuts").remove();
+                DateTimeShortcuts.init();
             }
         }
     };
