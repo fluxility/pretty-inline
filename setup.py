@@ -1,10 +1,12 @@
 from distutils.core import setup
+from setuptools import find_packages
 
 setup(
     name='pretty-inline',
     version='develop',
-    packages=['pretty_inline',],
-    package_dir={'': 'example_project'},
+    packages=find_packages(exclude=["example_project", "example_project.*"]),
+    include_package_data=True,
+    zip_safe=False,
     url='',
     license='',
     author='Fluxility',
