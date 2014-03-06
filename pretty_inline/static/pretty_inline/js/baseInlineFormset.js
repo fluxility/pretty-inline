@@ -258,7 +258,7 @@ var InlineFormset = {};
         },
 
         cancelChangeForm: function (formElement) {
-            if( !this.hasFormChange(formElement) ) {
+            if( !this.isOriginalEqualToEmptyForm(formElement) ) {
                 this.removeForm(formElement);
             }
 
@@ -295,22 +295,18 @@ var InlineFormset = {};
                 });
         },
 
-        hasFormChange: function(formElement) {
+        isOriginalEqualToEmptyForm: function(formElement) {
             var currentValues, startValues, equal=true;
 
             currentValues = formElement
-                    .find(
-                        '.change-form.active input,' +
-                        '.change-form.active select,' +
-                        '.change-form.active textarea'
-                    );
-
-            startValues = formElement
                     .find(
                         '.change-form.original input,' +
                         '.change-form.original select,' +
                         '.change-form.original textarea'
                     );
+
+            startValues = this.settings.emptyForm
+                    .find('input, select, textarea');
 
             $.each(startValues, function(i, field) {
                 equal = equal && $(currentValues[i]).val() === $(field).val();
@@ -322,7 +318,7 @@ var InlineFormset = {};
         removeForm: function (formElement) {
             var that = this;
 
-            if( this.hasFormChange(formElement) ) {
+            if( this.isOriginalEqualToEmptyForm(formElement) ) {
                 formElement.addClass("removed");
 
                 formElement
