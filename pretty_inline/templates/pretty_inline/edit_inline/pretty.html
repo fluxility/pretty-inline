@@ -43,7 +43,7 @@
                             {% for line in fieldset %}
                                 {% for field in line %}
                                     {% if not field.field.is_hidden %}
-                                        <td{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>
+                                        <td{% if field.field.name %} data-field="{{ field.field.name }}" class="representation-field"{% endif %}>
                                             {{ field.field.value|default_if_none:"" }}
                                         </td>
                                     {% endif %}
@@ -51,7 +51,7 @@
                             {% endfor %}
                         {% endfor %}
                     </tr>
-                    <tr class="change-form">
+                    <tr class="change-form original hidden">
                         <td colspan="{{ inline_admin_form|cell_count }}">
                             {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
                             {% for fieldset in inline_admin_form %}

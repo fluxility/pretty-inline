@@ -146,3 +146,7 @@
     background: #FFC url('../../admin/img/icon_error.gif') 5px 50% no-repeat;
     padding-left: 25px;
 }
+
+.inline-group .change-form.original {
+    display: none;
+}
