@@ -228,11 +228,13 @@ var InlineFormset = {};
                 .append(saveButton)
                 .append(cancelButton);
 
+
+            changeForm.find("fieldset:last").append(buttonRow);
+
             changeForm.removeClass("original hidden");
             changeForm.addClass("active");
 
             changeForm
-                .append(buttonRow)
                 .data('form-element', formElement)
                 .insertAfter(originalChangeForm);
 
