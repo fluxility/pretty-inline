@@ -417,10 +417,11 @@ var InlineFormset = {};
         handleOpenEditor: function (event){
             event.preventDefault();
 
-            var fieldWithFocus = $("input:focus, select:focus, textarea:focus");
+            var fieldWithFocus = $("input:focus, select:focus, textarea:focus"),
+                activeEditor = fieldWithFocus.parents(".change-form.active");
 
-            if( fieldWithFocus.length && $.contains(this.settings.editorContainer[0], fieldWithFocus[0]) ) {
-                this.saveChangeForm(this.settings.editorContainer.data('form-element'));
+            if( activeEditor.length>0 ) {
+                this.saveChangeForm(activeEditor.data("form-element"));
             } else {
                 alert("Please save (or cancel) the active editor first");
             }
