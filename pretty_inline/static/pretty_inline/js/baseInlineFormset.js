@@ -365,6 +365,11 @@ var InlineFormset = {};
                 window.alert(this.settings.canUndeleteText);
                 return;
             }
+
+            if(!formElement.hasClass("removed")) {
+                return;
+            }
+
             var that = this;
 
             formElement.removeClass("removed");
@@ -436,6 +441,13 @@ var InlineFormset = {};
 
             this.removeNewButDeletedForms();
             this.renumberFormIds();
+            this.updateManagementForm();
+        },
+
+        updateManagementForm: function () {
+            var idPrefix = "#id_" + this.settings.prefix;
+            this.$element.find(idPrefix + "-TOTAL_FORMS").val(this.settings.totalForms);
+
         },
 
         removeNewButDeletedForms: function () {
@@ -446,7 +458,9 @@ var InlineFormset = {};
             var that = this,
                 index = 0;
 
-            this.settings.formsContainer.children().each(function () {
+            console.log(this.settings.formsContainer.find('.change-form'));
+
+            this.settings.formsContainer.find('.change-form').each(function () {
                 $(this).find('*').each(function () {
                     that.updateElementIndex(this, that.settings.prefix, index);
                 });
