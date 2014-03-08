@@ -199,6 +199,18 @@ var InlineFormset = {};
             this.showChangeForm(newForm);
         },
 
+        disableChangeAndDelete: function (formElement) {
+            formElement.find(".change-button, .delete-button")
+                .prop("disabled", "disabled")
+                .addClass("disabled");
+        },
+
+        enableChangeAndDelete: function (formElement) {
+            formElement.find(".change-button, .delete-button")
+                .prop("disabled", false)
+                .removeClass("disabled");
+        },
+
         showChangeForm: function (formElement) {
             var formRow = formElement.find(".form-row"),
                 originalChangeForm = formElement.find(".change-form.original"),
@@ -240,6 +252,7 @@ var InlineFormset = {};
 
 
             this.isEditorOpen = true;
+            this.disableChangeAndDelete(formElement);
             this.reinitDateTimeShortCuts();
         },
 
@@ -274,6 +287,7 @@ var InlineFormset = {};
                 .remove();
 
             this.isEditorOpen = false;
+            this.enableChangeAndDelete(formElement);
             this.$element.removeClass("editor-active");
         },
 
