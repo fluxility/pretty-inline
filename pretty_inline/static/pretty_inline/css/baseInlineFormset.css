@@ -147,6 +147,37 @@
     padding-left: 25px;
 }
 
-.inline-group .change-form.original {
+.inline-group .change-form td {
+    overflow: hidden;
+}
+
+.inline-group .change-form fieldset {
+    -webkit-transition: all 200ms;
+    -moz-transition: height 200ms;
+    -ms-transition: height 200ms;
+    -o-transition: height 200ms;
+    transition: all 200ms;
+    overflow: hidden;
+    height: 0;
+    margin: -50% auto 50px;
+    width: 90%;
+
+}
+
+.inline-group .change-form.original fieldset {
     display: none;
+    height: 0;
+}
+
+.inline-group .change-form.active {
+    background: #F5F8FF;
+}
+
+.inline-group .change-form.active fieldset {
+    height: auto;
+    margin: 0 auto 50px;
+}
+
+.inline-group .change-form.active .form-row:nth-child(odd) {
+    background: #FFF;
 }

@@ -231,12 +231,13 @@ var InlineFormset = {};
 
             changeForm.find("fieldset:last").append(buttonRow);
 
-            changeForm.removeClass("original hidden");
-            changeForm.addClass("active");
-
             changeForm
                 .data('form-element', formElement)
                 .insertAfter(originalChangeForm);
+
+            changeForm.removeClass("original hidden");
+            setTimeout(function(){changeForm.addClass("active")}, 1);
+
 
             this.isEditorOpen = true;
             this.reinitDateTimeShortCuts();
