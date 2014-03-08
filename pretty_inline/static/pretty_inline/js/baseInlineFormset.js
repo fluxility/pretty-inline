@@ -419,25 +419,36 @@ var InlineFormset = {};
                 .toggleClass("disabled", !this.canAddAnotherForm());
         },
 
-        handleOpenEditor: function (event){
-            event.preventDefault();
-
+        /**
+         * Check if submit was released from inside an active form or
+         * from outside the form.
+         *
+         * Inside form: save only this form and kill submit event
+         * Outside form: save all forms and submit
+         *
+         * @param event
+         */
+        handleOpenEditors: function (event){
             var fieldWithFocus = $("input:focus, select:focus, textarea:focus"),
                 activeEditor = fieldWithFocus.parents(".change-form.active");
 
             if( activeEditor.length>0 ) {
                 this.saveChangeForm(activeEditor.data("form-element"));
+                event.preventDefault();
             } else {
-                alert("Please save (or cancel) the active editor first");
+                this.saveAllOpenEditors(event);
             }
+        },
 
-
+        saveAllOpenEditors: function (event) {
+            var that = this;
+            this.$element.find(".change-form.active").each(function(){
+                that.saveChangeForm($(this).data("form-element"));
+            })
         },
 
         prepareForSubmit: function (event) {
-            if( this.isEditorOpen ) {
-                this.handleOpenEditor(event);
-            }
+            this.handleOpenEditors(event);
 
             this.removeNewButDeletedForms();
             this.renumberFormIds();
