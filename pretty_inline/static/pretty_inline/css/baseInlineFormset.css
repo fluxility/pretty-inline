@@ -180,7 +180,6 @@
 
 .inline-group .change-form.original fieldset {
     display: none;
-    height: 0;
 }
 
 .inline-group .change-form.active {
@@ -188,7 +187,6 @@
 }
 
 .inline-group .change-form.active fieldset {
-    height: auto;
     margin: 0 auto 50px;
 }
 
