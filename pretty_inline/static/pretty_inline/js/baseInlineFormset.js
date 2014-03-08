@@ -203,7 +203,7 @@ var InlineFormset = {};
             var formRow = formElement.find(".form-row"),
                 originalChangeForm = formElement.find(".change-form.original"),
                 changeForm = originalChangeForm.clone(),
-                saveButton = $('<button type="button">Save</button>'),
+                saveButton = $('<button type="button">OK</button>'),
                 cancelButton = $('<button type="button">Cancel</button>'),
                 buttonRow = $('<div></div>');
 
