@@ -44,7 +44,7 @@
                                 {% for field in line %}
                                     {% if not field.field.is_hidden %}
                                         <td{% if field.field.name %} data-field="{{ field.field.name }}" class="representation-field"{% endif %}>
-                                            {{ field.field.value|default_if_none:"" }}
+                                            {{ field.field.value|default_if_none:""|slice:":30" }}
                                         </td>
                                     {% endif %}
                                 {% endfor %}

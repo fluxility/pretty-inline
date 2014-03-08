@@ -308,7 +308,7 @@ var InlineFormset = {};
                         )
                         .val();
 
-                    representationField.text(fieldValue);
+                    representationField.text(fieldValue.substring(0, 30));
                 });
         },
 
