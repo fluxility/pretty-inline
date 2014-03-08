@@ -96,7 +96,8 @@
     text-decoration: line-through;
 }
 
-.inline-group .removed button.delete-button {
+.inline-group .removed button.delete-button,
+.inline-group .removed button.change-button {
     text-decoration: none;
 }
 

@@ -221,6 +221,8 @@ var InlineFormset = {};
 
             var that = this;
 
+            this.unRemoveForm(formElement);
+
             formElement.find(".change-form.active").remove();
 
             saveButton
