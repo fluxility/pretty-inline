@@ -13,6 +13,12 @@ class Book(models.Model):
     language = models.CharField(max_length=7, choices=[("dutch", "Dutch"), ("english", "English")])
 
 
+class Address(models.Model):
+    author = models.ForeignKey(Author)
+    street = models.CharField(max_length=100)
+    postal = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+
 class AuthorTabular(Author):
     class Meta:
         proxy = True
