@@ -173,6 +173,10 @@
 
 }
 
+.inline-group .change-form.original {
+    display: none;
+}
+
 .inline-group .change-form.original fieldset {
     display: none;
     height: 0;

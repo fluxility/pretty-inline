@@ -51,7 +51,7 @@
                             {% endfor %}
                         {% endfor %}
                     </tr>
-                    <tr class="change-form original hidden">
+                    <tr class="change-form original">
                         <td colspan="{{ inline_admin_form|cell_count }}">
                             {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
                             {% for fieldset in inline_admin_form %}
