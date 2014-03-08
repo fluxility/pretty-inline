@@ -163,12 +163,11 @@
 
 .inline-group .change-form fieldset {
     -webkit-transition: all 200ms;
-    -moz-transition: height 200ms;
-    -ms-transition: height 200ms;
-    -o-transition: height 200ms;
+    -moz-transition: all 200ms;
+    -ms-transition: all 200ms;
+    -o-transition: all 200ms;
     transition: all 200ms;
     overflow: hidden;
-    height: 0;
     margin: -50% auto 50px;
     width: 90%;
 
