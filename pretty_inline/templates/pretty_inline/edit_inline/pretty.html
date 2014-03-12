@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 {% for inline_admin_form in inline_admin_formset %}
-                <tbody class="{% if forloop.last %} empty-form{% endif %}">
+                <tbody class="inline-item {% if forloop.last %} empty-form{% else %} has_original{% endif %}">
                     <tr class="{% spaceless %}
                     form-row
                     {% if inline_admin_form.form.errors %} errors{% endif %}

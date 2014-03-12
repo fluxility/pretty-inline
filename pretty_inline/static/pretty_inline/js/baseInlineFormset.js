@@ -490,7 +490,7 @@ var InlineFormset = {};
 
         updateManagementForm: function () {
             var idPrefix = "#id_" + this.settings.prefix;
-            this.$element.find(idPrefix + "-TOTAL_FORMS").val(this.settings.totalForms);
+            this.$element.find(idPrefix + "-TOTAL_FORMS").val(this.$element.find(".inline-item").length);
 
         },
 
@@ -502,7 +502,7 @@ var InlineFormset = {};
             var that = this,
                 index = 0;
 
-            this.settings.formsContainer.find('.change-form').each(function () {
+            this.settings.formsContainer.find('.inline-item').each(function () {
                 $(this).find('*').each(function () {
                     that.updateElementIndex(this, that.settings.prefix, index);
                 });
