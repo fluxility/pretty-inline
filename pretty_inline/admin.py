@@ -9,13 +9,19 @@ from django.forms import forms
 class BaseInlineModelAdmin(InlineModelAdmin):
     @property
     def media(self):
+        from django import VERSION as DJANGO_VERSION
+
         media = super(BaseInlineModelAdmin, self).media
+
+        if DJANGO_VERSION[0] is 1 and DJANGO_VERSION[1] < 6:
+            media.add_js(['//code.jquery.com/jquery-1.11.0.min.js'])
 
         media.add_css({
             "all": [static('pretty_inline/css/baseInlineFormset.css')]
         })
         media.add_js([static('libs/jquery.fix.clone.js')])
         media.add_js([static('pretty_inline/js/baseInlineFormset.js')])
+
 
         return media
 

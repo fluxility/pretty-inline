@@ -1,7 +1,15 @@
 var InlineFormset = {};
 
-(function ($, window) {
+(function (window) {
     "use strict";
+
+    var $;
+    if( 'jQuery' in window ) {
+        $ = window.jQuery;
+    } else {
+        $ = django.jQuery;
+    }
+
     var pluginName = "baseInlineFormset",
         defaults = {
             maximumForms: null,
@@ -550,4 +558,4 @@ var InlineFormset = {};
     $(function () {
         $(".inline-group:not(.custom)").baseInlineFormset();
     });
-})(django.jQuery, window);
+})(window);
