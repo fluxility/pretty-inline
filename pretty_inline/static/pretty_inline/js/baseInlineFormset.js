@@ -272,6 +272,8 @@ var InlineFormset = {};
 
 
             this.updateItemLabel(formElement);
+            console.log('aaa', formElement);
+            this.removeAnyErrorClasses(formElement);
             this.closeChangeForm(formElement);
         },
 
@@ -281,6 +283,11 @@ var InlineFormset = {};
             }
 
             this.closeChangeForm(formElement);
+        },
+
+        removeAnyErrorClasses: function(formElement) {
+            formElement.removeClass("errors");
+            formElement.find(".errors").removeClass("errors");
         },
 
         closeChangeForm: function (formElement) {
