@@ -34,6 +34,11 @@
     color: #036;
 }
 
+.inline-group .change-button.disabled {
+    opacity: 0.2;
+    color: #999;
+}
+
 .inline-group .delete-button {
     background: url('../../admin/img/icon_deletelink.gif') 0 50% no-repeat;
     margin-left: 10px;
@@ -48,6 +53,10 @@
     color: #993333;
 }
 
+.inline-group .delete-button.disabled {
+    opacity: 0.2;
+    color: #999;
+}
 
 .inline-group .save-button {
     border: 2px solid #5b80b2;
@@ -87,7 +96,8 @@
     text-decoration: line-through;
 }
 
-.inline-group .removed button.delete-button {
+.inline-group .removed button.delete-button,
+.inline-group .removed button.change-button {
     text-decoration: none;
 }
 
@@ -110,7 +120,7 @@
 }
 
 /* Pretty */
-.inline-group .overview {
+.inline-group.pretty .overview {
     position: relative;
     opacity: 1;
     -webkit-transition: all 0.2s;
@@ -120,7 +130,7 @@
     transition: all 0.2s;
 }
 
-.inline-group .editor {
+.inline-group.pretty .editor {
     opacity: 0;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -129,20 +139,66 @@
     transition: all 0.2s;
 }
 
-.inline-group.editor-active .overview {
+.inline-group.pretty.editor-active .overview {
     display: none;
     position: absolute;
 }
 
-.inline-group.editor-active .editor {
+.inline-group.pretty.editor-active .editor {
     opacity: 1;
 }
 
-.inline-group.editor-active .add-button {
+.inline-group.pretty.editor-active .add-button {
     display: none;
 }
 
-.inline-group .form-row.errors .item {
+.inline-group.pretty .form-row.errors .item {
     background: #FFC url('../../admin/img/icon_error.gif') 5px 50% no-repeat;
     padding-left: 25px;
+}
+
+.inline-group.pretty .change-form td {
+    overflow: hidden;
+}
+
+.inline-group.pretty .change-form fieldset {
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -ms-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
+    overflow: hidden;
+    margin: -50% auto 50px;
+    width: 90%;
+
+}
+
+.inline-group.pretty .change-form.original {
+    display: none;
+}
+
+.inline-group.pretty .change-form.original fieldset {
+    display: none;
+}
+
+.inline-group.pretty .change-form.active {
+    background: #F5F8FF;
+}
+
+.inline-group.pretty .change-form.active fieldset {
+    margin: 0 auto 50px;
+}
+
+.inline-group.pretty .change-form.active .form-row:nth-child(odd) {
+    background: #FFF;
+}
+
+.inline-group.pretty .change-form.active > td {
+    padding: 0;
+}
+
+.inline-group.pretty .change-form.active fieldset {
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }

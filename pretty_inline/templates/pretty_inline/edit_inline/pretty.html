@@ -9,59 +9,60 @@
             <table class="overview">
                 <thead>
                     <tr>
-                        <th>{{ inline_admin_formset.opts.verbose_name|capfirst }}</th>
-                        <th>{% trans "Edit" %}</th>
-                        <th>{% trans "Delete" %}</th>
+                        <th>Actions</th>
+                    {% for field in inline_admin_formset.fields %}
+                        {% if not field.widget.is_hidden %}
+                            <th{% if field.required %} class="required"{% endif %}>{{ field.label|capfirst }}</th>
+                        {% endif %}
+                    {% endfor %}
                     </tr>
                 </thead>
-                <tbody>
                 {% for inline_admin_form in inline_admin_formset %}
+                <tbody class="{% if forloop.last %} empty-form{% endif %}">
                     <tr class="{% spaceless %}
                     form-row
-                    {% if forloop.last %} empty-form{% endif %}
                     {% if inline_admin_form.form.errors %} errors{% endif %}
                     {% endspaceless %}">
-                        <td class="item">
-                            <span class="item-label">
-                            {% if inline_admin_form.original %}
-                            {{ inline_admin_form.original }}
-                            {% endif %}
+                        <td>
+                            <span class="change">
+                                <button class="change-button" type="button">
+                                    Bewerk {{ inline_admin_formset.opts.verbose_name|capfirst }}
+                                </button>
                             </span>
-                            <div class="change-form hidden">
-                            {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
-                            {% for fieldset in inline_admin_form %}
-                                {% include "admin/includes/fieldset.html" %}
-
-{#                                {% for line in fieldset %}#}
-{#                                    {% for field in line %}#}
-{#                                        {% if not field.field.is_hidden %}#}
-{#                                            <div{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>#}
-{#                                                {{ field.label }}#}
-{#                                                {{ field.field }}#}
-{#                                            </div>#}
-{#                                        {% endif %}#}
-{#                                    {% endfor %}#}
-{#                                {% endfor %}#}
-                            {% endfor %}
-                            {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
-                            {{ inline_admin_form.fk_field.field }}
-                            </div>
-                        </td>
-                        <td class="change">
-                            <button class="change-button" type="button">
-                                Bewerk {{ inline_admin_formset.opts.verbose_name|capfirst }}
-                            </button>
-                        </td>
-                        <td class="delete">
+                            <span class="delete">
                             {% if inline_admin_formset.formset.can_delete %}
                                 {% if inline_admin_form.original %}
                                 {{ inline_admin_form.deletion_field.field }}
                                 {% endif %}
                             {% endif %}
+                            </span>
+                        </td>
+
+
+                        {% for fieldset in inline_admin_form %}
+                            {% for line in fieldset %}
+                                {% for field in line %}
+                                    {% if not field.field.is_hidden %}
+                                        <td{% if field.field.name %} data-field="{{ field.field.name }}" class="representation-field"{% endif %}>
+                                            {{ field.field.value|default_if_none:""|slice:":30" }}
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
+                    <tr class="change-form original">
+                        <td colspan="{{ inline_admin_form|cell_count }}">
+                            {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
+                            {% for fieldset in inline_admin_form %}
+                                {% include "admin/includes/fieldset.html" %}
+                            {% endfor %}
+                            {% if inline_admin_form.needs_explicit_pk_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
+                            {{ inline_admin_form.fk_field.field }}
                         </td>
                     </tr>
-                {% endfor %}
                 </tbody>
+                {% endfor %}
             </table>
 
             <div class="editor">
@@ -98,19 +99,3 @@
 
     <span class="item-label-field hidden">title</span>
 </div>
-
-{% comment %}
-                    <tr class="form">{% spaceless %}
-                        <td colspan="{{ inline_admin_form|cell_count }}">
-                            {% if inline_admin_form.form.non_field_errors %}
-                                {{ inline_admin_form.form.non_field_errors }}{% endif %}
-                            {% for fieldset in inline_admin_form %}
-                                {% include "admin/includes/fieldset.html" %}
-                            {% endfor %}
-                            {% if inline_admin_form.needs_explicit_pk_field %}
-                                {{ inline_admin_form.pk_field.field }}{% endif %}
-                            {{ inline_admin_form.fk_field.field }}
-                            <button type="button" class="ok">{% trans "Ok" %}</button>
-                        </td>
-                    {% endspaceless %}</tr>
-{% endcomment %}

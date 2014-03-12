@@ -37,8 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'south',
-
     'pretty_inline',
     'myapp',
 )

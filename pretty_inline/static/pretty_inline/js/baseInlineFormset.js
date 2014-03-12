@@ -199,13 +199,31 @@ var InlineFormset = {};
             this.showChangeForm(newForm);
         },
 
+        disableChangeAndDelete: function (formElement) {
+            formElement.find(".change-button, .delete-button")
+                .prop("disabled", "disabled")
+                .addClass("disabled");
+        },
+
+        enableChangeAndDelete: function (formElement) {
+            formElement.find(".change-button, .delete-button")
+                .prop("disabled", false)
+                .removeClass("disabled");
+        },
+
         showChangeForm: function (formElement) {
-            var changeForm = formElement.find(".change-form").clone(),
-                saveButton = $('<button type="button">Save</button>'),
+            var formRow = formElement.find(".form-row"),
+                originalChangeForm = formElement.find(".change-form.original"),
+                changeForm = originalChangeForm.clone(),
+                saveButton = $('<button type="button">OK</button>'),
                 cancelButton = $('<button type="button">Cancel</button>'),
                 buttonRow = $('<div></div>');
 
             var that = this;
+
+            this.unRemoveForm(formElement);
+
+            formElement.find(".change-form.active").remove();
 
             saveButton
                 .addClass("save-button")
@@ -224,65 +242,96 @@ var InlineFormset = {};
                 .append(saveButton)
                 .append(cancelButton);
 
-            changeForm.removeClass("hidden")
 
-            this.settings.editorContainer
-                .html("")
-                .append(changeForm)
-                .append(buttonRow)
-                .data('form-element', formElement);
+            changeForm.find("fieldset:last").append(buttonRow);
+
+            changeForm
+                .data('form-element', formElement)
+                .insertAfter(originalChangeForm);
+
+            changeForm.removeClass("original hidden");
+            setTimeout(function(){changeForm.addClass("active")}, 1);
+
 
             this.isEditorOpen = true;
-            this.$element.addClass("editor-active");
+            this.disableChangeAndDelete(formElement);
             this.reinitDateTimeShortCuts();
         },
 
         saveChangeForm: function (formElement) {
-            var form = this.settings.editorContainer.find(".change-form");
+            formElement.find(".change-form.original").remove();
 
-            form.addClass("hidden");
             formElement
-                .find('.change-form')
-                .replaceWith(form)
-                .addClass("hidden");
+                .find('.change-form.active .button-row')
+                .remove();
 
-            this.updateItemLabel(form);
-            this.closeChangeForm();
+            formElement
+                .find(".change-form.active")
+                .removeClass("active")
+                .addClass("original");
+
+
+            this.updateItemLabel(formElement);
+            this.removeAnyErrorClasses(formElement);
+            this.closeChangeForm(formElement);
         },
 
         cancelChangeForm: function (formElement) {
-            if( !this.hasFormChange(formElement) ) {
+            if( !this.isOriginalEqualToEmptyForm(formElement) ) {
                 this.removeForm(formElement);
             }
 
-            this.closeChangeForm();
+            this.closeChangeForm(formElement);
         },
 
-        closeChangeForm: function () {
-            this.settings.editorContainer.html("");
+        removeAnyErrorClasses: function(formElement) {
+            formElement.removeClass("errors");
+            formElement.find(".errors").removeClass("errors");
+        },
+
+        closeChangeForm: function (formElement) {
+            formElement
+                .find(".change-form.active")
+                .remove();
+
             this.isEditorOpen = false;
+            this.enableChangeAndDelete(formElement);
             this.$element.removeClass("editor-active");
         },
 
-        updateItemLabel: function (form) {
-            var itemLabel, labelText;
+        updateItemLabel: function (formElement) {
+            var originalForm = formElement.find(".change-form.original");
 
-            itemLabel = form
-                .parents(".item")
-                .find(".item-label");
+            formElement.find(".form-row .representation-field")
+                .each(function(){
+                    var representationField, fieldName, fieldValue;
 
-            labelText = form
-                .find(".field-" + this.settings.itemLabelField)
-                .find("input,select,textarea")
-                .val();
+                    representationField = $(this);
+                    fieldName = ".field-" + representationField.data('field');
+                    fieldValue = originalForm
+                        .find(
+                            fieldName + " input," +
+                            fieldName + " select," +
+                            fieldName + " textarea"
+                        )
+                        .val();
 
-            itemLabel.text(labelText);
+                    representationField.text(fieldValue.substring(0, 30));
+                });
         },
 
-        hasFormChange: function(formElement) {
-            var currentValues = formElement.find('input,select,textarea'),
-                startValues = this.settings.emptyForm.find('input,select,textarea'),
-                equal = true;
+        isOriginalEqualToEmptyForm: function(formElement) {
+            var currentValues, startValues, equal=true;
+
+            currentValues = formElement
+                    .find(
+                        '.change-form.original input,' +
+                        '.change-form.original select,' +
+                        '.change-form.original textarea'
+                    );
+
+            startValues = this.settings.emptyForm
+                    .find('input, select, textarea');
 
             $.each(startValues, function(i, field) {
                 equal = equal && $(currentValues[i]).val() === $(field).val();
@@ -294,7 +343,7 @@ var InlineFormset = {};
         removeForm: function (formElement) {
             var that = this;
 
-            if( this.hasFormChange(formElement) ) {
+            if( this.isOriginalEqualToEmptyForm(formElement) ) {
                 formElement.addClass("removed");
 
                 formElement
@@ -322,6 +371,11 @@ var InlineFormset = {};
                 window.alert(this.settings.canUndeleteText);
                 return;
             }
+
+            if(!formElement.hasClass("removed")) {
+                return;
+            }
+
             var that = this;
 
             formElement.removeClass("removed");
@@ -371,27 +425,65 @@ var InlineFormset = {};
                 .toggleClass("disabled", !this.canAddAnotherForm());
         },
 
-        handleOpenEditor: function (event){
-            event.preventDefault();
+        /**
+         * Check where the submit was fired from:
+         *
+         * 1. In an active form inside me
+         * 2. In an active form in another inline
+         * 3. Some where on the form
+         *
+         * Case 1: save this specific form
+         * Case 2: let it go, owner will handle this one
+         * Case 3: save all my open editors
+         *
+         * @param event
+         */
+        handleOpenEditors: function (event){
+            var field = $("input:focus, select:focus, textarea:focus"),
+                editor = field.parents(".change-form.active"),
+                that = this;
 
-            var fieldWithFocus = $("input:focus, select:focus, textarea:focus");
-
-            if( fieldWithFocus.length && $.contains(this.settings.editorContainer[0], fieldWithFocus[0]) ) {
-                this.saveChangeForm(this.settings.editorContainer.data('form-element'));
-            } else {
-                alert("Please save (or cancel) the active editor first");
+            function inEditor() {
+                return editor.length > 0 || ('wasInlineEditor' in event);
             }
 
+            function inThisEditor() {
+                return $.contains(that.element, editor[0] );
+            }
 
+            if( inEditor() ) {
+                // Was in some editor (case 1 and 2)
+                if( inThisEditor() ) {
+                    // Was in my editor
+                    that.saveChangeForm(editor.data("form-element"));
+                    event['wasInlineEditor'] = true;
+                    event.preventDefault();
+                }
+            } else {
+                // Had nothing to do with editors (case 3)
+                this.saveAllOpenEditors(event);
+            }
+        },
+
+        saveAllOpenEditors: function (event) {
+            var that = this;
+            this.$element.find(".change-form.active").each(function(){
+                that.saveChangeForm($(this).data("form-element"));
+            })
         },
 
         prepareForSubmit: function (event) {
-            if( this.isEditorOpen ) {
-                this.handleOpenEditor(event);
-            }
+            this.handleOpenEditors(event);
 
             this.removeNewButDeletedForms();
             this.renumberFormIds();
+            this.updateManagementForm();
+        },
+
+        updateManagementForm: function () {
+            var idPrefix = "#id_" + this.settings.prefix;
+            this.$element.find(idPrefix + "-TOTAL_FORMS").val(this.settings.totalForms);
+
         },
 
         removeNewButDeletedForms: function () {
@@ -402,7 +494,7 @@ var InlineFormset = {};
             var that = this,
                 index = 0;
 
-            this.settings.formsContainer.children().each(function () {
+            this.settings.formsContainer.find('.change-form').each(function () {
                 $(this).find('*').each(function () {
                     that.updateElementIndex(this, that.settings.prefix, index);
                 });
