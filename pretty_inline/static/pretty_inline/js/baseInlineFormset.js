@@ -420,22 +420,41 @@ var InlineFormset = {};
         },
 
         /**
-         * Check if submit was released from inside an active form or
-         * from outside the form.
+         * Check where the submit was fired from:
          *
-         * Inside form: save only this form and kill submit event
-         * Outside form: save all forms and submit
+         * 1. In an active form inside me
+         * 2. In an active form in another inline
+         * 3. Some where on the form
+         *
+         * Case 1: save this specific form
+         * Case 2: let it go, owner will handle this one
+         * Case 3: save all my open editors
          *
          * @param event
          */
         handleOpenEditors: function (event){
-            var fieldWithFocus = $("input:focus, select:focus, textarea:focus"),
-                activeEditor = fieldWithFocus.parents(".change-form.active");
+            var field = $("input:focus, select:focus, textarea:focus"),
+                editor = field.parents(".change-form.active"),
+                that = this;
 
-            if( activeEditor.length>0 ) {
-                this.saveChangeForm(activeEditor.data("form-element"));
-                event.preventDefault();
+            function inEditor() {
+                return editor.length > 0 || ('wasInlineEditor' in event);
+            }
+
+            function inThisEditor() {
+                return $.contains(that.element, editor[0] );
+            }
+
+            if( inEditor() ) {
+                // Was in some editor (case 1 and 2)
+                if( inThisEditor() ) {
+                    // Was in my editor
+                    that.saveChangeForm(editor.data("form-element"));
+                    event['wasInlineEditor'] = true;
+                    event.preventDefault();
+                }
             } else {
+                // Had nothing to do with editors (case 3)
                 this.saveAllOpenEditors(event);
             }
         },
@@ -468,8 +487,6 @@ var InlineFormset = {};
         renumberFormIds: function () {
             var that = this,
                 index = 0;
-
-            console.log(this.settings.formsContainer.find('.change-form'));
 
             this.settings.formsContainer.find('.change-form').each(function () {
                 $(this).find('*').each(function () {
