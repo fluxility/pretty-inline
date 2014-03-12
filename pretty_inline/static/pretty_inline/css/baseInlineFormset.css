@@ -120,7 +120,7 @@
 }
 
 /* Pretty */
-.inline-group .overview {
+.inline-group.pretty .overview {
     position: relative;
     opacity: 1;
     -webkit-transition: all 0.2s;
@@ -130,7 +130,7 @@
     transition: all 0.2s;
 }
 
-.inline-group .editor {
+.inline-group.pretty .editor {
     opacity: 0;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
@@ -139,29 +139,29 @@
     transition: all 0.2s;
 }
 
-.inline-group.editor-active .overview {
+.inline-group.pretty.editor-active .overview {
     display: none;
     position: absolute;
 }
 
-.inline-group.editor-active .editor {
+.inline-group.pretty.editor-active .editor {
     opacity: 1;
 }
 
-.inline-group.editor-active .add-button {
+.inline-group.pretty.editor-active .add-button {
     display: none;
 }
 
-.inline-group .form-row.errors .item {
+.inline-group.pretty .form-row.errors .item {
     background: #FFC url('../../admin/img/icon_error.gif') 5px 50% no-repeat;
     padding-left: 25px;
 }
 
-.inline-group .change-form td {
+.inline-group.pretty .change-form td {
     overflow: hidden;
 }
 
-.inline-group .change-form fieldset {
+.inline-group.pretty .change-form fieldset {
     -webkit-transition: all 200ms;
     -moz-transition: all 200ms;
     -ms-transition: all 200ms;
@@ -173,22 +173,22 @@
 
 }
 
-.inline-group .change-form.original {
+.inline-group.pretty .change-form.original {
     display: none;
 }
 
-.inline-group .change-form.original fieldset {
+.inline-group.pretty .change-form.original fieldset {
     display: none;
 }
 
-.inline-group .change-form.active {
+.inline-group.pretty .change-form.active {
     background: #F5F8FF;
 }
 
-.inline-group .change-form.active fieldset {
+.inline-group.pretty .change-form.active fieldset {
     margin: 0 auto 50px;
 }
 
-.inline-group .change-form.active .form-row:nth-child(odd) {
+.inline-group.pretty .change-form.active .form-row:nth-child(odd) {
     background: #FFF;
 }

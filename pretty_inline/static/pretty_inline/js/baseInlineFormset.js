@@ -272,7 +272,6 @@ var InlineFormset = {};
 
 
             this.updateItemLabel(formElement);
-            console.log('aaa', formElement);
             this.removeAnyErrorClasses(formElement);
             this.closeChangeForm(formElement);
         },
