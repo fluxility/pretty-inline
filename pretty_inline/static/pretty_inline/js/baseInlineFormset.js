@@ -4,7 +4,7 @@ var InlineFormset = {};
     "use strict";
 
     var $;
-    if( 'jQuery' in window ) {
+    if( window.jQuery !== undefined ) {
         $ = window.jQuery;
     } else {
         $ = django.jQuery;
