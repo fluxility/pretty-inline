@@ -192,3 +192,13 @@
 .inline-group.pretty .change-form.active .form-row:nth-child(odd) {
     background: #FFF;
 }
+
+.inline-group.pretty .change-form.active > td {
+    padding: 0;
+}
+
+.inline-group.pretty .change-form.active fieldset {
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
