@@ -25,6 +25,8 @@ class BaseInlineModelAdmin(InlineModelAdmin):
 
         return media
 
+    extra = 0
+
 
 class TabularInline(BaseInlineModelAdmin, BaseTabularInline):
     template = 'pretty_inline/edit_inline/tabular.html'
@@ -36,5 +38,4 @@ class StackedInline(BaseInlineModelAdmin, BaseStackedInline):
 
 class PrettyInline(BaseInlineModelAdmin):
     template = 'pretty_inline/edit_inline/pretty.html'
-    extra = 0
 
