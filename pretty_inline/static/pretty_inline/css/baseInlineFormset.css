@@ -130,6 +130,10 @@
     transition: all 0.2s;
 }
 
+.inline-group.pretty .overview tr td:first-child {
+    width: 220px;
+}
+
 .inline-group.pretty .editor {
     opacity: 0;
     -webkit-transition: all 0.2s;
