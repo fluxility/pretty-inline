@@ -486,6 +486,7 @@ var InlineFormset = {};
             this.removeNewButDeletedForms();
             this.renumberFormIds();
             this.updateManagementForm();
+            this.settings.emptyForm.remove();
         },
 
         updateManagementForm: function () {
